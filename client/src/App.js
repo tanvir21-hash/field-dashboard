@@ -5,11 +5,11 @@ import {
   Tooltip, Legend, PieChart, Pie, Cell, ResponsiveContainer
 } from 'recharts';
 
-// Colors for charts
 const COLORS = ['#2c7a3a', '#4CAF50', '#FFC107', '#FF5722', '#2196F3', '#9C27B0'];
 
+const API = 'https://field-dashboard-j3tk.onrender.com';
+
 function App() {
-  // State for all data
   const [farmers, setFarmers] = useState([]);
   const [yieldStats, setYieldStats] = useState([]);
   const [techStats, setTechStats] = useState({});
@@ -18,42 +18,37 @@ function App() {
   const [adaptation, setAdaptation] = useState([]);
   const [districtFilter, setDistrictFilter] = useState('All');
 
-  // Fetch all data when app loads
   useEffect(() => {
-    axios.get('https://field-dashboard-j3tk.onrender.com/api/farmers')
+    axios.get(`${API}/api/farmers`)
       .then(res => setFarmers(res.data));
 
-    axios.get('https://field-dashboard-j3tk.onrender.com/api/yield-by-crop')
+    axios.get(`${API}/api/stats/yield-by-crop`)
       .then(res => setYieldStats(res.data));
 
-    axios.get('https://field-dashboard-j3tk.onrender.com/api/technology')
+    axios.get(`${API}/api/stats/technology`)
       .then(res => setTechStats(res.data));
 
-    axios.get('https://field-dashboard-j3tk.onrender.com/api/climate-yield')
+    axios.get(`${API}/api/stats/climate-yield`)
       .then(res => setClimateYield(res.data));
 
-    axios.get('https://field-dashboard-j3tk.onrender.com/api/digital-divide')
+    axios.get(`${API}/api/stats/digital-divide`)
       .then(res => setDigitalDivide(res.data));
 
-    axios.get('https://field-dashboard-j3tk.onrender.com/api/adaptation')
+    axios.get(`${API}/api/stats/adaptation`)
       .then(res => setAdaptation(res.data));
   }, []);
 
-  // Get unique districts for filter
   const districts = ['All', ...new Set(farmers.map(f => f.district))];
 
-  // Filter farmers table by district
   const filteredFarmers = districtFilter === 'All'
     ? farmers
     : farmers.filter(f => f.district === districtFilter);
 
-  // Technology pie chart data
   const techData = [
     { name: 'Has Internet', value: parseInt(techStats.has_internet) || 0 },
     { name: 'No Internet', value: (parseInt(techStats.total_farmers) - parseInt(techStats.has_internet)) || 0 },
   ];
 
-  // Adaptation pie chart data
   const adaptationData = adaptation.map(a => ({
     name: a.adaptation_strategy,
     value: parseInt(a.count)
@@ -62,13 +57,11 @@ function App() {
   return (
     <div style={{ padding: '30px', fontFamily: 'Arial', backgroundColor: '#f9fafb' }}>
 
-      {/* Header */}
       <h1 style={{ color: '#2c7a3a', borderBottom: '3px solid #2c7a3a', paddingBottom: '10px' }}>
-        🌾 Field Data Dashboard
+        Field Data Dashboard
       </h1>
       <p style={{ color: '#666' }}>Agricultural Survey — Small-scale Farmers, Bangladesh</p>
 
-      {/* Stats Cards */}
       <div style={{ display: 'flex', gap: '20px', marginBottom: '40px', flexWrap: 'wrap' }}>
         <div style={cardStyle('#2c7a3a')}>
           <h3>Total Farmers</h3>
@@ -88,12 +81,9 @@ function App() {
         </div>
       </div>
 
-      {/* ROW 1: Yield Charts */}
       <div style={rowStyle}>
-
-        {/* Bar Chart - Yield by Crop */}
         <div style={chartBox}>
-          <h2 style={chartTitle}>📊 Average Yield by Crop (kg)</h2>
+          <h2 style={chartTitle}>Average Yield by Crop (kg)</h2>
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={yieldStats}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -106,9 +96,8 @@ function App() {
           </ResponsiveContainer>
         </div>
 
-        {/* Bar Chart - Climate vs Yield */}
         <div style={chartBox}>
-          <h2 style={chartTitle}>🌊 Climate Challenge vs Yield (kg)</h2>
+          <h2 style={chartTitle}>Climate Challenge vs Yield (kg)</h2>
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={climateYield}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -120,15 +109,11 @@ function App() {
             </BarChart>
           </ResponsiveContainer>
         </div>
-
       </div>
 
-      {/* ROW 2: Digital Divide + Adaptation */}
       <div style={rowStyle}>
-
-        {/* Grouped Bar Chart - Digital Divide by District */}
         <div style={chartBox}>
-          <h2 style={chartTitle}>📡 Digital Divide by District</h2>
+          <h2 style={chartTitle}>Digital Divide by District</h2>
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={digitalDivide}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -142,9 +127,8 @@ function App() {
           </ResponsiveContainer>
         </div>
 
-        {/* Pie Chart - Adaptation Strategies */}
         <div style={chartBox}>
-          <h2 style={chartTitle}>🌱 Adaptation Strategies</h2>
+          <h2 style={chartTitle}>Adaptation Strategies</h2>
           <PieChart width={400} height={280}>
             <Pie
               data={adaptationData}
@@ -163,13 +147,11 @@ function App() {
             <Tooltip />
           </PieChart>
         </div>
-
       </div>
 
-      {/* ROW 3: Internet Access Pie */}
       <div style={rowStyle}>
         <div style={chartBox}>
-          <h2 style={chartTitle}>🌐 Internet Access Distribution</h2>
+          <h2 style={chartTitle}>Internet Access Distribution</h2>
           <PieChart width={400} height={280}>
             <Pie
               data={techData}
@@ -189,8 +171,7 @@ function App() {
         </div>
       </div>
 
-      {/* Farmer Records Table */}
-      <h2 style={chartTitle}>📋 Farmer Records</h2>
+      <h2 style={chartTitle}>Farmer Records</h2>
       <label style={{ fontWeight: 'bold' }}>Filter by District: </label>
       <select
         value={districtFilter}
@@ -238,7 +219,6 @@ function App() {
   );
 }
 
-// Style helpers
 const cardStyle = (color) => ({
   backgroundColor: color,
   color: 'white',
