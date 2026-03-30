@@ -20,22 +20,22 @@ function App() {
 
   // Fetch all data when app loads
   useEffect(() => {
-    axios.get('http://localhost:5000/api/farmers')
+    axios.get('https://field-dashboard-j3tk.onrender.com/api/farmers')
       .then(res => setFarmers(res.data));
 
-    axios.get('http://localhost:5000/api/stats/yield-by-crop')
+    axios.get('https://field-dashboard-j3tk.onrender.com/api/yield-by-crop')
       .then(res => setYieldStats(res.data));
 
-    axios.get('http://localhost:5000/api/stats/technology')
+    axios.get('https://field-dashboard-j3tk.onrender.com/api/technology')
       .then(res => setTechStats(res.data));
 
-    axios.get('http://localhost:5000/api/stats/climate-yield')
+    axios.get('https://field-dashboard-j3tk.onrender.com/api/climate-yield')
       .then(res => setClimateYield(res.data));
 
-    axios.get('http://localhost:5000/api/stats/digital-divide')
+    axios.get('https://field-dashboard-j3tk.onrender.com/api/digital-divide')
       .then(res => setDigitalDivide(res.data));
 
-    axios.get('http://localhost:5000/api/stats/adaptation')
+    axios.get('https://field-dashboard-j3tk.onrender.com/api/adaptation')
       .then(res => setAdaptation(res.data));
   }, []);
 
