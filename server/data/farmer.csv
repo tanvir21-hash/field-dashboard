@@ -1,0 +1,11 @@
+farmer_id,district,village,crop_type,yield_kg,climate_challenge,has_internet,has_smartphone,adaptation_strategy
+F001,Rajshahi,Char Khidirpur,Rice,1200,Flood,Yes,Yes,Raised bed farming
+F002,Rajshahi,Paba,Wheat,850,Drought,No,No,Traditional irrigation
+F003,Chapainawabganj,Shibganj,Mango,3200,Heatwave,Yes,Yes,Drip irrigation
+F004,Naogaon,Atrai,Rice,950,Flood,No,Yes,Flood resistant seeds
+F005,Rajshahi,Godagari,Potato,2100,Drought,Yes,No,Mulching
+F006,Chapainawabganj,Bholahat,Mango,2800,Heatwave,No,No,Traditional methods
+F007,Naogaon,Raninagar,Wheat,780,Drought,Yes,Yes,Drip irrigation
+F008,Rajshahi,Tanore,Rice,1100,Flood,No,No,Raised bed farming
+F009,Naogaon,Badalgachhi,Potato,1950,Drought,Yes,Yes,Mulching
+F010,Chapainawabganj,Nachole,Mango,3100,Heatwave,Yes,No,Drip irrigation
